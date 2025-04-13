@@ -48,14 +48,9 @@ git clone https://github.com/yourusername/TimeZoneView.git
 
 ## Скриншоты
 
-[Здесь будут скриншоты приложения]
-
-## Возможности для улучшения
-
-- Добавление возможности сохранения предпочтительных часовых поясов
-- Реализация поддержки виджетов для iOS
-- Добавление дополнительной информации о часовых поясах (смещение от UTC, сезонное время и т.д.)
-- Реализация тёмной темы оформления
+![Экран 1](screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-04-13 at 19.55.31.png)
+![Экран 2](screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-04-13 at 19.55.39.png)
+![Экран 3](screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-04-13 at 19.55.50.png)
 
 ## Лицензия
 
