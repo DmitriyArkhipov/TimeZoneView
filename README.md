@@ -48,9 +48,11 @@ git clone https://github.com/yourusername/TimeZoneView.git
 
 ## Скриншоты
 
-![Экран 1](https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.31.png)
-![Экран 2](https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.39.png)
-![Экран 3](https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.50.png)
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
+  <img src="https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.31.png" width="30%" alt="Главный экран" />
+  <img src="https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.50.png" width="30%" alt="Настройка времени" />
+  <img src="https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.39.png" width="30%" alt="Выбор часового пояса" />
+</div>
 
 ## Лицензия
 
