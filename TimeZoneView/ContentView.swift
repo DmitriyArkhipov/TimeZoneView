@@ -31,6 +31,7 @@ struct TimeZoneRootView: View {
                     onDateChange: { intent(.selectDate($0)) }
                 )
                 .frame(width: geometry.size.width / 2)
+                .clipped()
             }
         }
         .sheet(isPresented: Binding(
@@ -42,5 +43,16 @@ struct TimeZoneRootView: View {
                 onSelect: { intent(.addTimezone($0)) }
             )
         }
+    }
+}
+
+
+
+
+struct TimeZoneRootView_Prview: PreviewProvider {
+    @StateObject private var viewModel = TimeZoneViewModel()
+
+    static var previews: some View {
+        ContentView()
     }
 }
