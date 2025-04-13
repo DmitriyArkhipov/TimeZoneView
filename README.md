@@ -48,9 +48,9 @@ git clone https://github.com/yourusername/TimeZoneView.git
 
 ## Скриншоты
 
-![Экран 1](screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-04-13 at 19.55.31.png)
-![Экран 2](screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-04-13 at 19.55.39.png)
-![Экран 3](screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-04-13 at 19.55.50.png)
+![Экран 1](https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.31.png)
+![Экран 2](https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.39.png)
+![Экран 3](https://github.com/DmitriyArkhipov/TimeZoneView/blob/main/screenshots/Simulator%20Screenshot%20-%20iPhone%2016%20Pro%20-%202025-04-13%20at%2019.55.50.png)
 
 ## Лицензия
 
