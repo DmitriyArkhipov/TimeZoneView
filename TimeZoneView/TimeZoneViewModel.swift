@@ -33,6 +33,10 @@ final class TimeZoneViewModel: ObservableObject {
             state.showingTimezonePicker = true
         case .hideTimezonePicker:
             state.showingTimezonePicker = false
+        case .updateTimezones(let timezones):
+            state.selectedTimezones = timezones
+            // Сохраняем изменения
+            TimeZoneStorage.saveTimezones(timezones)
         }
     }
 }
