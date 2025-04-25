@@ -2,14 +2,16 @@ import SwiftUI
 
 struct RegionDetailView: View {
     @StateObject private var viewModel: RegionDetailViewModel
+    let previousRegionName: String
     
-    init(timezone: TimeZone, timezones: [TimeZone], currentDate: Date, onTimezonesChange: @escaping ([TimeZone]) -> Void) {
+    init(timezone: TimeZone, timezones: [TimeZone], currentDate: Date, onTimezonesChange: @escaping ([TimeZone]) -> Void, previousRegionName: String? = nil) {
         _viewModel = StateObject(wrappedValue: RegionDetailViewModel(
             timezone: timezone,
             timezones: timezones,
             currentDate: currentDate,
             onTimezonesChange: onTimezonesChange
         ))
+        self.previousRegionName = previousRegionName ?? "Regions"
     }
     
     var body: some View {
@@ -20,11 +22,13 @@ struct RegionDetailView: View {
                     // Additional timezones
                     List {
                         ForEach(viewModel.state.timezones, id: \.identifier) { timezone in
-                            TimeZoneRowView(
-                                date: viewModel.state.date,
-                                timezone: timezone,
-                                isActive: timezone.identifier == viewModel.state.timezone.identifier
-                            )
+                            NavigationLink(value: timezone) {
+                                TimeZoneRowView(
+                                    date: viewModel.state.date,
+                                    timezone: timezone,
+                                    isActive: timezone.identifier == viewModel.state.timezone.identifier
+                                )
+                            }
                         }
                         .onDelete { indexSet in
                             viewModel.dispatch(.deleteTimezone(indexSet))
@@ -49,13 +53,33 @@ struct RegionDetailView: View {
                 .clipped()
             }
         }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Text(viewModel.state.timezone.identifier.components(separatedBy: "/").last ?? viewModel.state.timezone.identifier)
+                    .foregroundColor(.primary)
+                    .font(.headline)
+            }
+        }
+        .navigationDestination(for: TimeZone.self) { timezone in
+            RegionDetailView(
+                timezone: timezone,
+                timezones: viewModel.state.timezones,
+                currentDate: viewModel.state.date,
+                onTimezonesChange: viewModel.onTimezonesChange,
+                previousRegionName: viewModel.state.timezone.identifier.components(separatedBy: "/").last ?? viewModel.state.timezone.identifier
+            )
+        }
         .sheet(isPresented: Binding(
             get: { viewModel.state.showingTimezonePicker },
             set: { if !$0 { viewModel.dispatch(.hideTimezonePicker) } }
         )) {
             TimeZonePickerView(
                 selectedTimezones: viewModel.state.timezones,
-                onSelect: { viewModel.dispatch(.addTimezone($0)) }
+                onSelect: { timezone in
+                    viewModel.dispatch(.addTimezone(timezone))
+                }
             )
         }
     }

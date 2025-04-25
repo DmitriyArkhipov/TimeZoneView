@@ -73,18 +73,15 @@ struct TimeZoneRowView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(name)
-                    .font(.headline)
+                    .font(.subheadline)
                     .foregroundColor(isActive ? .accentColor : .primary)
                 Text(time)
-                    .font(.system(size: 34, weight: .light))
+                    .font(.system(size: 32, weight: .light))
             }
             Spacer()
             if isActive {
                 Image(systemName: "checkmark")
                     .foregroundColor(.accentColor)
-            } else {
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
             }
         }
         .padding(.vertical, 8)

@@ -16,48 +16,75 @@ struct TimeZoneRootView: View {
     let intent: (TimeZoneIntent) -> Void
     @State private var selectedTimezone: TimeZone?
     
+    private var currentRegionName: String {
+        (selectedTimezone ?? state.selectedTimezones.first ?? .current).identifier.components(separatedBy: "/").last ?? "Time Zones"
+    }
+    
     var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 0) {
-                TimeZoneListView(
-                    date: state.selectedDate,
-                    timezones: state.selectedTimezones,
-                    onAddTap: { intent(.showTimezonePicker) },
-                    onDelete: { intent(.deleteTimezone($0)) },
-                    onTimezoneTap: { selectedTimezone = $0 },
-                    activeTimezone: selectedTimezone ?? state.selectedTimezones.first ?? .current
-                )
-                .frame(width: geometry.size.width / 2)
-                
-                TimePicker(
-                    date: state.selectedDate,
-                    onDateChange: { intent(.selectDate($0)) }
-                )
-                .frame(width: geometry.size.width / 2)
-                .clipped()
-            }
-        }
-        .sheet(isPresented: Binding(
-            get: { state.showingTimezonePicker },
-            set: { if !$0 { intent(.hideTimezonePicker) } }
-        )) {
-            TimeZonePickerView(
-                selectedTimezones: state.selectedTimezones,
-                onSelect: { intent(.addTimezone($0)) }
-            )
-        }
-        .sheet(item: Binding(
-            get: { selectedTimezone },
-            set: { selectedTimezone = $0 }
-        )) { timezone in
-            RegionDetailView(
-                timezone: timezone,
-                timezones: state.selectedTimezones,
-                currentDate: state.selectedDate,
-                onTimezonesChange: { newTimezones in
-                    intent(.updateTimezones(newTimezones))
+        NavigationStack {
+            GeometryReader { geometry in
+                HStack(spacing: 0) {
+                    VStack {
+                        List {
+                            ForEach(state.selectedTimezones) { timezone in
+                                NavigationLink(value: timezone) {
+                                    TimeZoneRowView(
+                                        date: state.selectedDate,
+                                        timezone: timezone,
+                                        isActive: timezone.identifier == (selectedTimezone?.identifier ?? state.selectedTimezones.first?.identifier)
+                                    )
+                                }
+                            }
+                            .onDelete { intent(.deleteTimezone($0)) }
+                        }
+                        
+                        Button(action: { intent(.showTimezonePicker) }) {
+                            Label("Add Timezone", systemImage: "plus.circle.fill")
+                                .font(.headline)
+                        }
+                        .padding()
+                    }
+                    .frame(width: geometry.size.width / 2)
+                    
+                    TimePicker(
+                        date: state.selectedDate,
+                        onDateChange: { intent(.selectDate($0)) }
+                    )
+                    .frame(width: geometry.size.width / 2)
+                    .clipped()
                 }
-            )
+            }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Text(currentRegionName)
+                        .foregroundColor(.primary)
+                        .font(.headline)
+                }
+            }
+            .navigationDestination(for: TimeZone.self) { timezone in
+                RegionDetailView(
+                    timezone: timezone,
+                    timezones: state.selectedTimezones,
+                    currentDate: state.selectedDate,
+                    onTimezonesChange: { newTimezones in
+                        intent(.updateTimezones(newTimezones))
+                    },
+                    previousRegionName: currentRegionName
+                )
+            }
+            .sheet(isPresented: Binding(
+                get: { state.showingTimezonePicker },
+                set: { if !$0 { intent(.hideTimezonePicker) } }
+            )) {
+                TimeZonePickerView(
+                    selectedTimezones: state.selectedTimezones,
+                    onSelect: { timezone in
+                        intent(.addTimezone(timezone))
+                    }
+                )
+            }
         }
     }
 }
@@ -66,9 +93,7 @@ extension TimeZone: Identifiable {
     public var id: String { identifier }
 }
 
-struct TimeZoneRootView_Prview: PreviewProvider {
-    @StateObject private var viewModel = TimeZoneViewModel()
-
+struct TimeZoneRootView_Preview: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
