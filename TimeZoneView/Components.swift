@@ -6,15 +6,20 @@ struct TimeZoneListView: View {
     let onAddTap: () -> Void
     let onDelete: (IndexSet) -> Void
     let onTimezoneTap: (TimeZone) -> Void
+    let activeTimezone: TimeZone
     
     var body: some View {
         VStack {
             List {
                 ForEach(timezones, id: \.identifier) { timezone in
-                    TimeZoneRowView(date: date, timezone: timezone)
-                        .onTapGesture {
-                            onTimezoneTap(timezone)
-                        }
+                    TimeZoneRowView(
+                        date: date,
+                        timezone: timezone,
+                        isActive: timezone.identifier == activeTimezone.identifier
+                    )
+                    .onTapGesture {
+                        onTimezoneTap(timezone)
+                    }
                 }
                 .onDelete(perform: onDelete)
             }
@@ -51,6 +56,7 @@ struct TimePicker: View {
 struct TimeZoneRowView: View {
     let date: Date
     let timezone: TimeZone
+    let isActive: Bool
     
     var time: String {
         let formatter = DateFormatter()
@@ -68,12 +74,18 @@ struct TimeZoneRowView: View {
             VStack(alignment: .leading) {
                 Text(name)
                     .font(.headline)
+                    .foregroundColor(isActive ? .accentColor : .primary)
                 Text(time)
                     .font(.system(size: 34, weight: .light))
             }
             Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
+            if isActive {
+                Image(systemName: "checkmark")
+                    .foregroundColor(.accentColor)
+            } else {
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
         }
         .padding(.vertical, 8)
     }

@@ -22,7 +22,8 @@ struct RegionDetailView: View {
                         ForEach(viewModel.state.timezones, id: \.identifier) { timezone in
                             TimeZoneRowView(
                                 date: viewModel.state.date,
-                                timezone: timezone
+                                timezone: timezone,
+                                isActive: timezone.identifier == viewModel.state.timezone.identifier
                             )
                         }
                         .onDelete { indexSet in

@@ -24,7 +24,8 @@ struct TimeZoneRootView: View {
                     timezones: state.selectedTimezones,
                     onAddTap: { intent(.showTimezonePicker) },
                     onDelete: { intent(.deleteTimezone($0)) },
-                    onTimezoneTap: { selectedTimezone = $0 }
+                    onTimezoneTap: { selectedTimezone = $0 },
+                    activeTimezone: selectedTimezone ?? state.selectedTimezones.first ?? .current
                 )
                 .frame(width: geometry.size.width / 2)
                 

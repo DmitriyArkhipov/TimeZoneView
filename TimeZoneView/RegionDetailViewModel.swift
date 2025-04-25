@@ -8,14 +8,12 @@ final class RegionDetailViewModel: ObservableObject {
     init(timezone: TimeZone, timezones: [TimeZone], currentDate: Date, onTimezonesChange: @escaping ([TimeZone]) -> Void) {
         self.onTimezonesChange = onTimezonesChange
         state = RegionDetailState.initial(timezone: timezone, timezones: timezones, currentDate: currentDate)
-        print("Init with timezone: \(timezone.identifier), offset: \(timezone.secondsFromGMT())")
     }
     
     func dispatch(_ intent: RegionDetailIntent) {
         switch intent {
         case .selectDate(let date):
             state.date = date
-            print("Selected date: \(date)")
         case .addTimezone(let timezone):
             if !state.timezones.contains(where: { $0.identifier == timezone.identifier }) {
                 state.timezones.append(timezone)
@@ -38,11 +36,6 @@ final class RegionDetailViewModel: ObservableObject {
         let sourceOffset = state.timezone.secondsFromGMT(for: state.date)
         let targetOffset = targetTimezone.secondsFromGMT(for: state.date)
         let difference = Double(targetOffset - sourceOffset)
-        
-        print("Converting time:")
-        print("Source timezone: \(state.timezone.identifier), offset: \(sourceOffset)")
-        print("Target timezone: \(targetTimezone.identifier), offset: \(targetOffset)")
-        print("Difference: \(difference) seconds")
         
         // Применяем разницу к дате
         return state.date.addingTimeInterval(difference)
