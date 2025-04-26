@@ -78,11 +78,6 @@ struct TimeZoneRowView: View {
                 Text(time)
                     .font(.system(size: 32, weight: .light))
             }
-            Spacer()
-            if isActive {
-                Image(systemName: "checkmark")
-                    .foregroundColor(.accentColor)
-            }
         }
         .padding(.vertical, 8)
     }
