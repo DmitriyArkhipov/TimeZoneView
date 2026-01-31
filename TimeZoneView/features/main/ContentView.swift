@@ -74,17 +74,6 @@ struct TimeZoneRootView: View {
                     previousRegionName: currentRegionName
                 )
             }
-            .navigationDestination(for: NestedTimeZoneDestination.self) { destination in
-                RegionDetailView(
-                    timezone: destination.timezone,
-                    timezones: state.selectedTimezones,
-                    currentDate: state.selectedDate,
-                    onTimezonesChange: { newTimezones in
-                        intent(.updateTimezones(newTimezones))
-                    },
-                    previousRegionName: destination.timezone.identifier.components(separatedBy: "/").last ?? "Region"
-                )
-            }
             .sheet(isPresented: Binding(
                 get: { state.showingTimezonePicker },
                 set: { if !$0 { intent(.hideTimezonePicker) } }

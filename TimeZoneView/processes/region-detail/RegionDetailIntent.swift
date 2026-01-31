@@ -6,4 +6,5 @@ enum RegionDetailIntent {
     case deleteTimezone(IndexSet)
     case showTimezonePicker
     case hideTimezonePicker
+    case updateTimezones([TimeZone])
 } 

@@ -62,6 +62,17 @@ struct RegionDetailView: View {
                     .font(.headline)
             }
         }
+        .navigationDestination(for: NestedTimeZoneDestination.self) { destination in
+            RegionDetailView(
+                timezone: destination.timezone,
+                timezones: viewModel.state.timezones,
+                currentDate: viewModel.state.date,
+                onTimezonesChange: { newTimezones in
+                    viewModel.dispatch(.updateTimezones(newTimezones))
+                },
+                previousRegionName: destination.timezone.identifier.components(separatedBy: "/").last ?? "Region"
+            )
+        }
         .sheet(isPresented: Binding(
             get: { viewModel.state.showingTimezonePicker },
             set: { if !$0 { viewModel.dispatch(.hideTimezonePicker) } }

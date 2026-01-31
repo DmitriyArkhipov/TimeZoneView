@@ -27,6 +27,9 @@ final class RegionDetailViewModel: ObservableObject {
             state.showingTimezonePicker = true
         case .hideTimezonePicker:
             state.showingTimezonePicker = false
+        case .updateTimezones(let timezones):
+            state.timezones = timezones
+            onTimezonesChange(timezones)
         }
     }
     
