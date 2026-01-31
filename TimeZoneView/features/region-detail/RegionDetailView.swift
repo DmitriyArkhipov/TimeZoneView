@@ -22,7 +22,7 @@ struct RegionDetailView: View {
                     // Additional timezones
                     List {
                         ForEach(viewModel.state.timezones, id: \.identifier) { timezone in
-                            NavigationLink(value: timezone) {
+                            NavigationLink(value: NestedTimeZoneDestination(timezone: timezone)) {
                                 TimeZoneRowView(
                                     date: viewModel.state.date,
                                     timezone: timezone,
@@ -61,15 +61,6 @@ struct RegionDetailView: View {
                     .foregroundColor(.primary)
                     .font(.headline)
             }
-        }
-        .navigationDestination(for: TimeZone.self) { timezone in
-            RegionDetailView(
-                timezone: timezone,
-                timezones: viewModel.state.timezones,
-                currentDate: viewModel.state.date,
-                onTimezonesChange: viewModel.onTimezonesChange,
-                previousRegionName: viewModel.state.timezone.identifier.components(separatedBy: "/").last ?? viewModel.state.timezone.identifier
-            )
         }
         .sheet(isPresented: Binding(
             get: { viewModel.state.showingTimezonePicker },

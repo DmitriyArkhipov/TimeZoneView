@@ -27,7 +27,7 @@ struct TimeZoneRootView: View {
                     VStack {
                         List {
                             ForEach(state.selectedTimezones) { timezone in
-                                NavigationLink(value: timezone) {
+                                NavigationLink(value: TimeZoneDestination(timezone: timezone)) {
                                     TimeZoneRowView(
                                         date: state.selectedDate,
                                         timezone: timezone,
@@ -63,15 +63,26 @@ struct TimeZoneRootView: View {
                         .font(.headline)
                 }
             }
-            .navigationDestination(for: TimeZone.self) { timezone in
+            .navigationDestination(for: TimeZoneDestination.self) { destination in
                 RegionDetailView(
-                    timezone: timezone,
+                    timezone: destination.timezone,
                     timezones: state.selectedTimezones,
                     currentDate: state.selectedDate,
                     onTimezonesChange: { newTimezones in
                         intent(.updateTimezones(newTimezones))
                     },
                     previousRegionName: currentRegionName
+                )
+            }
+            .navigationDestination(for: NestedTimeZoneDestination.self) { destination in
+                RegionDetailView(
+                    timezone: destination.timezone,
+                    timezones: state.selectedTimezones,
+                    currentDate: state.selectedDate,
+                    onTimezonesChange: { newTimezones in
+                        intent(.updateTimezones(newTimezones))
+                    },
+                    previousRegionName: destination.timezone.identifier.components(separatedBy: "/").last ?? "Region"
                 )
             }
             .sheet(isPresented: Binding(
@@ -85,6 +96,7 @@ struct TimeZoneRootView: View {
                     }
                 )
             }
+            .fadeNavigationTransition()
         }
     }
 }
